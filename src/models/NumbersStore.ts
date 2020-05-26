@@ -1,4 +1,5 @@
 import { types, Instance } from "mobx-state-tree";
+import {TestModel} from './custom';
 
 let lastKey = 0;
 
@@ -9,7 +10,8 @@ const NumberItemModel = types.model({
 
 export const NumbersStore = types
   .model({
-    numbers: types.array(NumberItemModel)
+    numbers: types.array(NumberItemModel),
+    test: types.map(TestModel)
   })
   .views(self => ({
     get sum() {
@@ -30,6 +32,12 @@ export const NumbersStore = types
   .actions(self => ({
     add(value: number) {
       self.numbers.push({ key: ++lastKey, value });
+    },
+    populateTest(){
+      self.test.put(TestModel.create({id: "1", name: 'Hakan', description: 'desc 1'}))
+      self.test.put(TestModel.create({id: "2", name: 'Emre', description: 'desc 2'}))
+      self.test.put(TestModel.create({id: "3", name: 'Özlem', description: 'desc 3'}))
+      self.test.put(TestModel.create({id: "4", name: 'Gürcan', description: 'desc 4'}))
     }
   }));
 
